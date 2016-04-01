@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kael.mapper.PersonMapper" >
+  <resultMap id="BaseResultMap" type="com.kael.model.Person" >
+    <id column="person_id" property="personId" jdbcType="VARCHAR" />
+    <result column="person_name" property="personName" jdbcType="VARCHAR" />
+    <result column="person_address" property="personAddress" jdbcType="VARCHAR" />
+    <result column="person_tel" property="personTel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    person_id, person_name, person_address, person_tel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from person
+    where person_id = #{personId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from person
+    where person_id = #{personId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.kael.model.Person" >
+    insert into person (person_id, person_name, person_address, 
+      person_tel)
+    values (#{personId,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, #{personAddress,jdbcType=VARCHAR}, 
+      #{personTel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kael.model.Person" >
+    insert into person
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="personId != null" >
+        person_id,
+      </if>
+      <if test="personName != null" >
+        person_name,
+      </if>
+      <if test="personAddress != null" >
+        person_address,
+      </if>
+      <if test="personTel != null" >
+        person_tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="personId != null" >
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="personName != null" >
+        #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personAddress != null" >
+        #{personAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="personTel != null" >
+        #{personTel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kael.model.Person" >
+    update person
+    <set >
+      <if test="personName != null" >
+        person_name = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personAddress != null" >
+        person_address = #{personAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="personTel != null" >
+        person_tel = #{personTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where person_id = #{personId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kael.model.Person" >
+    update person
+    set person_name = #{personName,jdbcType=VARCHAR},
+      person_address = #{personAddress,jdbcType=VARCHAR},
+      person_tel = #{personTel,jdbcType=VARCHAR}
+    where person_id = #{personId,jdbcType=VARCHAR}
+  </update>
+  <resultMap type="com.kael.model.Person" id="BaseResultMapWithOrders">
+    <id column="person_id" property="personId" jdbcType="VARCHAR" />
+    <result column="person_name" property="personName" jdbcType="VARCHAR" />
+    <result column="person_address" property="personAddress" jdbcType="VARCHAR" />
+    <result column="person_tel" property="personTel" jdbcType="VARCHAR" />
+    <collection property="orderList" ofType="com.kael.model.Orders" column="pid">
+    	<id column="order_id" property="orderId" jdbcType="VARCHAR" />
+	    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+	    <result column="order_price" property="orderPrice" jdbcType="INTEGER" />
+	    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <select id="selectPersonFetchOrder" parameterType="int" resultMap="BaseResultMapWithOrders" >  
+        select p.*,o.* from person p,orders o where o.pid=p.person_id and p.person_id=#{id}  
+    </select>  
+</mapper>
