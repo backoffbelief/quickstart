@@ -10,7 +10,11 @@ public class StartServerServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		new Thread(new ChatServer()).start();
+		String initParameter = config.getInitParameter("port");
+		if(initParameter != null){
+			System.out.println(initParameter);
+			new Thread(new ChatServer(Integer.parseInt(initParameter))).start();
+		}
 	}
 
 }

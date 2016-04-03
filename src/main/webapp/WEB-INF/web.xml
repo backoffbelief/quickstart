@@ -57,6 +57,10 @@
     <servlet>
         <servlet-name>chatserver</servlet-name>
         <servlet-class>com.kael.websocket.StartServerServlet</servlet-class>
+        <init-param>
+        	<param-name>port</param-name>
+        	<param-value>8070</param-value>
+        </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
 	<display-name>Archetype Created Web Application</display-name>

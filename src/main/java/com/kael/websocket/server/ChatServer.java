@@ -9,23 +9,25 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.ImmediateEventExecutor;
 
-import org.springframework.stereotype.Component;
-
 import com.kael.websocket.handler.ChatServerInitializer;
 
-@Component
 public class ChatServer implements Runnable{
+
+	private final int port;
+	
+	public ChatServer(int port) {
+		this.port = port;
+	}
 
 	@Override
 	public void run(){
-		System.out.println("start-------------");
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		final EventLoopGroup loopGroup = new NioEventLoopGroup();
 		
 		final ChannelFuture future = bootstrap.group(loopGroup)
 		.channel(NioServerSocketChannel.class)
 		.childHandler(new ChatServerInitializer(new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE)))
-		.bind(8070);
+		.bind(port);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			
@@ -38,6 +40,6 @@ public class ChatServer implements Runnable{
 				}
 			}
 		}));
-		System.out.println("end-------------");
+		System.out.println("start lister port:"+port);
 	}
 }
