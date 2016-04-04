@@ -9,4 +9,4 @@
 .classpath
 /bin/
 /logs/
-.settings/org.eclipse.core.resources.prefs
+/.settings/
