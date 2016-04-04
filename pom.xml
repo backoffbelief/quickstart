@@ -85,11 +85,6 @@
 			<artifactId>jprotobuf</artifactId>
 			<version>1.9.7</version>
 		</dependency>
-		<dependency>
-			<groupId>com.hoolai</groupId>
-			<artifactId>memcached-jredis-extentions</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
-		</dependency>
 			<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>

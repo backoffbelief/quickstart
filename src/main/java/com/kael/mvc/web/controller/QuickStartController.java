@@ -1,11 +1,9 @@
 package com.kael.mvc.web.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import redis.clients.jedis.Jedis;
-
-import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import com.hoolai.keyvalue.jredis.JRedis;
-import com.hoolai.keyvalue.jredis.JRedisProxy;
-import com.hoolai.keyvalue.jredis.StorageKeyProtobuf;
-import com.hoolai.util.NativeCodec;
 import com.kael.mapper.OrdersMapper;
-import com.kael.model.Barrack;
 import com.kael.model.Orders;
 import com.kael.model.Person;
 import com.kael.model.Person0;
@@ -142,7 +132,7 @@ public class QuickStartController {
     Orders selectOrdersFetchPerson(@PathVariable("id") String id) {
     	return ordersMapper.selectOrdersFetchPerson(id);
     }
-    
+  /**  
     @RequestMapping(value = "/findBarracks/{id}", method = { RequestMethod.GET, RequestMethod.POST})
     public @ResponseBody Barrack findBarracks(@PathVariable("id") long  userId) throws Exception{
     	Jedis jedis = new Jedis("127.0.0.1", 6379);
@@ -161,5 +151,5 @@ public class QuickStartController {
 //    		jedis.del(key);
     	}
 		return ProtobufProxy.create(Barrack.class).decode(bytes);
-    }
+    }*/
 }
