@@ -13,10 +13,11 @@
 			window.WebSocket = window.MozWebSocket;
 		}
 		if (window.WebSocket) {
-			socket = new WebSocket("ws://localhost:8070/ws");
+			socket = new WebSocket("ws://192.168.80.128:8070/ws");
 			socket.onmessage = function(event) {
 				var ta = document.getElementById('responseText');
-				ta.value = ta.value + '\n' + event.data
+				var msg = JSON.parse(event.data);
+				ta.value = ta.value + '\n' + msg.name+":"+msg.msg;
 			};
 			socket.onopen = function(event) {
 				var ta = document.getElementById('responseText');
@@ -29,12 +30,21 @@
 		} else {
 			alert("你的浏览器不支持！");
 		}
-		function send(message) {
+		var _nickname;
+		
+		function send(nickname, message) {
 			if (!window.WebSocket) {
 				return;
 			}
 			if (socket.readyState == WebSocket.OPEN) {
-				socket.send(message);
+				if(!_nickname){
+					__nickname= nickname;
+					
+					var obj = {"id": 100,"nickName":__nickname};
+					socket.send(JSON.stringify(obj));
+				}
+				var obj = {"id": 101,"msg":message};
+				socket.send(JSON.stringify(obj));
 			} else {
 				alert("连接没有开启.");
 			}

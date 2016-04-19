@@ -9,6 +9,7 @@ import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.util.AttributeKey;
 
 public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocketFrame>{
 
@@ -29,8 +30,9 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
 			throws Exception {
 		if(evt == WebSocketServerProtocolHandler.ServerHandshakeStateEvent.HANDSHAKE_COMPLETE){
+			ctx.attr(AttributeKey.valueOf(ctx.channel().remoteAddress().toString()));
 			this.group.add(ctx.channel());
-			group.writeAndFlush(new TextWebSocketFrame(String.format("welcome %s  join!", ctx.channel().remoteAddress().toString())));
+			//group.writeAndFlush(new TextWebSocketFrame(String.format("welcome %s  join!", ctx.channel().remoteAddress().toString())));
 			return ;
 		}
 		super.userEventTriggered(ctx, evt);
